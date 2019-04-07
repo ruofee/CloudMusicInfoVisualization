@@ -9,15 +9,6 @@
     </section>
     <section class="section">
       <p class="subtitle">
-        <span>最喜欢的歌手是</span>
-        <span class="text-main">{{resolveData.artists[0] ? resolveData.artists[0].name : ''}}</span>
-      </p>
-      <section class="chart-wrap">
-          <ve-histogram v-bind="chartArtists"></ve-histogram>
-        </section>
-    </section>
-    <section class="section">
-      <p class="subtitle">
         <span>在你喜欢的歌曲中, 最老的歌曲是</span>
         <span class="text-main">{{oldestSong.name}}</span>
         <span>, 发布时间为</span>
@@ -27,6 +18,45 @@
         <span>, 发布时间为</span>
         <span class="text-main">{{youngestSong.time}}</span>
       </p>
+    </section>
+    <section class="section">
+      <p class="subtitle">
+        <span>最喜欢的歌手是</span>
+        <span class="text-main">{{favouriteArtists.artist ? favouriteArtists.artist.name : ''}}</span>
+      </p>
+      <section class="chart-wrap">
+        <ve-histogram v-bind="chartArtists"></ve-histogram>
+      </section>
+      <p class="subtitle"></p>
+    </section>
+    <section class="section">
+      <p class="subtitle">
+        <span>关于</span>
+        <span class="text-main">{{favouriteArtists.artist ? favouriteArtists.artist.name : ''}}</span>
+      </p>
+      <div class="artist">
+        <div class="header">
+          <div class="img-wrap">
+            <img :src="favouriteArtists.artist ? favouriteArtists.artist.img1v1Url : ''" alt="头像">
+          </div>
+        </div>
+        <p class="content">{{favouriteArtists.artist ? favouriteArtists.artist.briefDesc : ''}}</p>
+        <div>
+          <p class="subtitle">
+            <span>该歌手Top5歌曲</span>
+          </p>
+          <ul class="songs">
+            <li
+              :class="`song song-${index + 1}`"
+              v-for="(song, index) of (favouriteArtists.hotSongs ? favouriteArtists.hotSongs.slice(0, 5) : [])"
+              :key="song.privilege.id">
+              <span class="index">{{index + 1}}. </span>
+              <span>{{song.name}}</span>
+              <a :href="`https://music.163.com/#/song?id=${song.privilege.id}`"><span class="play">播放</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
   </div>
   <div class="music" v-else>
@@ -54,7 +84,8 @@
         artistsMax: 20,
         timesMax: 20,
         finished: false,
-        format: 'YYYY-MM-DD'
+        format: 'YYYY-MM-DD',
+        favouriteArtists: {}
       };
     },
     computed: {
@@ -68,16 +99,20 @@
           });
           item.ar.forEach(subItem => {
             if (resultArtists[subItem.name]) {
-              resultArtists[subItem.name]++;
+              resultArtists[subItem.name].number++;
             } else {
-              resultArtists[subItem.name] = 1;
+              resultArtists[subItem.name] = {
+                number: 1,
+                id: subItem.id
+              };
             }
           });
         });
         const artists = Object.keys(resultArtists).map(name => {
           return {
             name,
-            number: resultArtists[name]
+            id: resultArtists[name].id,
+            number: resultArtists[name].number
           };
         }).sort((x, y) => {
           return y.number - x.number;
@@ -155,6 +190,15 @@
           url: 'getSongDetail',
           params: {
             ids
+          }
+        });
+      },
+      getArtist(id) {
+        return this.$http({
+          method: 'GET',
+          url: 'getArtist',
+          params: {
+            id
           }
         });
       },
@@ -250,6 +294,7 @@
         return song.id
       });
       this.songDetail = (await this.getSongDetail(ids)).data.songs;
+      this.favouriteArtists = (await this.getArtist(this.resolveData.artists[0].id)).data;
       this.finished = true;
     }
   };
@@ -278,6 +323,67 @@
       .chart-wrap {
         padding-top: 10px;
         padding-bottom: 10px;
+      }
+      .artist {
+        .header {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 150px;
+          .img-wrap {
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+            overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+        .content {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          padding: 10px;
+          color: #555;
+          font-size: .8em;
+          border: 1px solid #d8d8d8;
+          border-radius: 5px;
+        }
+        .songs {
+          padding-left: 10px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          .song {
+            padding: 5px 0;
+            font-size: .9em;
+            line-height: 24px;
+            border-bottom: 1px solid #d8d8d8;
+            .index {
+              margin-right: 10px;
+            }
+            .play {
+              float: right;
+              font-size: .9em;
+              color: #555;
+            }
+          }
+          .song-1 {
+            color: #ff4844;
+          }
+          .song-2 {
+            color: #9ac3e5;
+          }
+          .song-3 {
+            color: #66ac52;
+          }
+          .song-4 {
+            color: #ffc032;
+          }
+          .song-5 {
+            color: #f47e39;
+          }
+        }
       }
     }
     .section:first-child {
