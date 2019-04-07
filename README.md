@@ -1,29 +1,19 @@
-# vue-cli3
+## CloudMusicInfoVisualization
 
-## Project setup
-```
-npm install
-```
+> CloudMusicInfoVisualization项目基于VueCli3.0 + VChart + Express
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+#### 描述
 
-### Compiles and minifies for production
-```
-npm run build
-```
+项目通过接口获取云音乐用户基本信息, 使用Echart技术将感兴趣的数据可视化
 
-### Run your tests
-```
-npm run test
-```
+接口算法参考了[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-### Lints and fixes files
-```
-npm run lint
-```
+#### Demo
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[项目在线地址](http://interesting.ruofee.cn)
+
+#### 写在最后
+
+项目仅供学习交流
+
+如果项目能博得你一秒钟的开心, 那可以点个Star让我知道吗?
