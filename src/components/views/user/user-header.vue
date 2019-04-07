@@ -22,7 +22,7 @@
         type: Object,
         default() {
           return {
-            avatarUrl: 'http://img.ruofee.cn/headImage?imageslim',
+            avatarUrl: '',
             nickname: '我没有名称哦',
             signature: '是不是不写签名你就不爱我了',
             backgroundImgIdStr: ''

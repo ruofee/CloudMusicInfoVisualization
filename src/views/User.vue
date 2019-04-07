@@ -4,17 +4,23 @@
     <Tabs v-model="tab" sticky animated>
       <Tab title="日记">
         <keep-alive>
-          <user-profile v-if="tab === 0" :user="userProfile"></user-profile>
+          <user-profile v-show="tab === 0" :user="userProfile" v-if="!loading"></user-profile>
+          <div v-else>
+            <the-loading height="200px"></the-loading>
+          </div>
         </keep-alive>
       </Tab>
       <Tab title="歌单">
         <keep-alive>
-          <user-play-list v-if="tab === 1" :id="userId"></user-play-list>
+          <user-play-list v-show="tab === 1" :id="userId" v-if="!loading"></user-play-list>
+          <div v-else>
+            <the-loading height="200px"></the-loading>
+          </div>
         </keep-alive>
       </Tab>
       <Tab title="音乐">
         <keep-alive>
-          <user-music v-if="tab === 2" :id="userId"></user-music>
+          <user-music v-show="tab === 2" :id="userId"></user-music>
         </keep-alive>
       </Tab>
     </Tabs>
@@ -27,6 +33,7 @@
   import userProfile from '@/components/views/user/user-profile';
   import userPlayList from '@/components/views/user/user-play-list';
   import userMusic from '@/components/views/user/user-music';
+  import theLoading from '@/components/the-loading';
   import {Tabs, Tab} from 'vant';
 
   export default {
@@ -36,13 +43,15 @@
       userProfile,
       userPlayList,
       userMusic,
+      theLoading,
       Tabs,
       Tab
     },
     data() {
       return {
         tab: '日记',
-        user: {}
+        user: {},
+        loading: false
       };
     },
     computed: {
@@ -92,6 +101,7 @@
     },
     methods: {
       getUserDetail() {
+        this.loading = true;
         return this.$http({
           method: 'GET',
           url: 'getUserInfo',
@@ -102,6 +112,7 @@
           .then(res => {
             const result = res.data;
             this.user = result;
+            this.loading = false;
           });
       }
     },
