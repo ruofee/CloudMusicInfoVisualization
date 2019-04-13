@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <nav-bar
-      title="网易云音乐"
+      v-if="!isWechat"
+      :title="title"
       @click-left="goBack"
       left-arrow>
     </nav-bar>
@@ -11,11 +12,27 @@
 
 <script>
   import {NavBar} from 'vant';
+  import {isWechat} from '@/util';
 
   export default {
     name: 'app',
     components: {
       NavBar
+    },
+    watch: {
+      '$route'() {
+        this.title = document.title;
+      }
+    },
+    data() {
+      return {
+        title: document.title
+      };
+    },
+    computed: {
+      isWechat() {
+        return isWechat();
+      }
     },
     methods: {
       goBack() {

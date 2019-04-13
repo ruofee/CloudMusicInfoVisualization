@@ -30,3 +30,8 @@ export const catchStr = (str, length) => {
   }
   return result += '...';
 };
+
+export const isWechat = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  return ua.match(/MicroMessenger/i) === 'micromessenger';
+};
