@@ -83,7 +83,7 @@
       <span class="header"></span>
       <span>很高兴很高兴认识你, 可以请你帮个忙吗? </span>
       <span>送颗星星给这个Github项目: </span>
-      <a href="https://github.com/ruofee">网易云</a>
+      <a class="link" href="https://github.com/ruofee/CloudMusicInfoVisualization">云音乐用户信息可视化</a>
     </li>
   </ul>
 </template>
@@ -151,6 +151,9 @@
       }
       .text-main {
         color: #3396fb;
+      }
+      .link {
+        color: #5fadfc;
       }
     }
   }
