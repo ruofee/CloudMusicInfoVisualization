@@ -5,6 +5,8 @@ const getUser = require('./getUser');
 const getUserInfo = require('./getUserInfo');
 const getPlayList = require('./getPlayList');
 const getLikeList = require('./getLikeList');
+const getFollows = require('./getFollows');
+const getFans = require('./getFans');
 const getArtist = require('./getArtist');
 const getSongDetail = require('./getSongDetail');
 const getCommentHot = require('./getCommentHot');
@@ -26,6 +28,14 @@ module.exports = app => {
   // 获取用户歌单列表
 
   getPlayList(router);
+
+  // 根据id获取关注者列表
+
+  getFollows(router);
+
+  // 根据id获取粉丝列表
+
+  getFans(router);
 
   // 根据歌手id获取详情
 
