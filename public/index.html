@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@1.6/lib/index.css">
-    <title>vue-cli3</title>
+    <title>云音乐用户信息可视化</title>
   </head>
   <body>
     <noscript>
@@ -14,5 +14,7 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="<%- NODE_ENV === 'production' ? BASE_URL + 'pvuv.js' : BASE_URL + 'dev.js' %>"></script>
+    <script src="<%= BASE_URL %>console.js"></script>
   </body>
 </html>
