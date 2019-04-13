@@ -21,6 +21,30 @@
     </section>
     <section class="section">
       <p class="subtitle">
+        最近喜欢听
+        <span class="text-main">{{songDetail[0] ? songDetail[0].name : ' ' }}</span>
+        , 以下是这首歌的前五热评:
+      </p>
+      <div
+        class="comment"
+        v-for="(comment, index) of lastSongComments"
+        :key="index">
+        <div class="comment-content">
+          {{comment.content}}
+        </div>
+        <div class="comment-footer">
+          <span>--</span>
+          <div class="img-wrap" @click="() => preview(comment.user.avatarUrl)">
+            <img class="img" :src="comment.user.avatarUrl" alt="头像">
+          </div>
+          <span class="text-main">{{comment.user.name}}</span>
+          <Icon class="comment-icon" name="like"></Icon>
+          <span class="text-main">{{comment.likedCount}}</span>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <p class="subtitle">
         <span>最喜欢的歌手是</span>
         <span class="text-main">{{favouriteArtists.artist ? favouriteArtists.artist.name : ''}}</span>
       </p>
@@ -36,8 +60,8 @@
       </p>
       <div class="artist">
         <div class="header">
-          <div class="img-wrap">
-            <img :src="favouriteArtists.artist ? favouriteArtists.artist.img1v1Url : ''" alt="头像">
+          <div class="img-wrap" @click="() => preview(favouriteArtists.artist ? favouriteArtists.artist.img1v1Url : '')">
+            <img class="img" :src="favouriteArtists.artist ? favouriteArtists.artist.img1v1Url : ''" alt="头像">
           </div>
         </div>
         <p class="content">{{favouriteArtists.artist ? favouriteArtists.artist.briefDesc : ''}}</p>
@@ -67,6 +91,7 @@
 <script>
   import theLoading from '@/components/the-loading';
   import day from 'dayjs';
+  import {Icon, ImagePreview} from 'vant';
   import {catchStr} from '@/util';
 
   export default {
@@ -75,7 +100,8 @@
       id: [Number, String]
     },
     components: {
-      theLoading
+      theLoading,
+      Icon
     },
     data() {
       return {
@@ -85,7 +111,8 @@
         timesMax: 20,
         finished: false,
         format: 'YYYY-MM-DD',
-        favouriteArtists: {}
+        favouriteArtists: {},
+        lastSongComments: []
       };
     },
     computed: {
@@ -202,6 +229,17 @@
           }
         });
       },
+      getCommentHot(id) {
+        return this.$http({
+          method: 'GET',
+          url: 'getCommentHot',
+          params: {
+            id,
+            type: 0,
+            limit: 5
+          }
+        });
+      },
       createPieChart(title, data, legendVisible = false) {
         return {
           title: {
@@ -284,6 +322,9 @@
           height: '320px',
           data
         };
+      },
+      preview(url) {
+        ImagePreview([url]);
       }
     },
     async created() {
@@ -295,6 +336,7 @@
       });
       this.songDetail = (await this.getSongDetail(ids)).data.songs;
       this.favouriteArtists = (await this.getArtist(this.resolveData.artists[0].id)).data;
+      this.lastSongComments = (await this.getCommentHot(this.songDetail[0].id)).data;
       this.finished = true;
     }
   };
@@ -324,6 +366,40 @@
         padding-top: 10px;
         padding-bottom: 10px;
       }
+      .comment {
+        padding: 10px;
+        margin-top: 10px;
+        color: #555;
+        font-size: .8em;
+        border: 1px solid #d8d8d8;
+        border-radius: 5px;
+        .comment-footer {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-top: 10px;
+          .img-wrap {
+            margin-left: 5px;
+            margin-right: 5px;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            overflow: hidden;
+            .img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .comment-icon {
+            margin-left: 10px;
+            color: #f44;
+            font-size: 16px;
+          }
+        }
+      }
+      .comment:first-child {
+        margin-top: 0;
+      }
       .artist {
         .header {
           display: flex;
@@ -335,7 +411,7 @@
             height: 120px;
             border-radius: 100%;
             overflow: hidden;
-            img {
+            .img {
               width: 100%;
               height: 100%;
             }
