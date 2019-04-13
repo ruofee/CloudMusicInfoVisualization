@@ -23,6 +23,16 @@
           <user-music v-show="tab === 2" :id="userId"></user-music>
         </keep-alive>
       </Tab>
+      <Tab title="关注/粉丝">
+        <keep-alive>
+          <user-fans
+            v-show="tab === 3"
+            :id="userId"
+            :follows="userProfile.follows"
+            :fans="userProfile.followeds">
+          </user-fans>
+        </keep-alive>
+      </Tab>
     </Tabs>
   </div>
 </template>
@@ -33,6 +43,7 @@
   import userProfile from '@/components/views/user/user-profile';
   import userPlayList from '@/components/views/user/user-play-list';
   import userMusic from '@/components/views/user/user-music';
+  import userFans from '@/components/views/user/user-fans';
   import theLoading from '@/components/the-loading';
   import {Tabs, Tab} from 'vant';
 
@@ -43,9 +54,15 @@
       userProfile,
       userPlayList,
       userMusic,
+      userFans,
       theLoading,
       Tabs,
       Tab
+    },
+    watch: {
+      '$route'() {
+        this.$router.go(0);
+      }
     },
     data() {
       return {
