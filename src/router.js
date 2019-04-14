@@ -9,6 +9,9 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
+      redirect: {
+        name: 'Search'
+      },
       meta: {
         title: '首页'
       },
