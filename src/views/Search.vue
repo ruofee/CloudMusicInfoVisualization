@@ -41,7 +41,7 @@
       return {
         searchConfig: {
           keyword: '',
-          placeholder: '请输入用户名'
+          placeholder: '请输入你的云音乐用户名'
         },
         listConfig: {
           loading: false,
