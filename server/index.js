@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const route = require('./router');
+const database = require('./database');
 const static = require('./middleware/static');
 const cors = require('./middleware/cors');
 const parser = require('./middleware/parser');

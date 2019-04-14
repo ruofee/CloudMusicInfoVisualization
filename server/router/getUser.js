@@ -1,9 +1,19 @@
 const {weapi} = require('../util');
 const http = require('../http');
+const DB = require('../database');
 
 module.exports = router => {
   router.get('/getUser', async (req, res) => {
     const {name, limit, page} = req.query;
+    const keyword = new DB.Keyword({
+      ip: req.socket.remoteAddress,
+      keyword: name
+    });
+    try {
+      await keyword.save();
+    } catch(err) {
+      throw new Error(err.message);
+    }
     _limit = limit || 30;
     const data = {
       s: name,
