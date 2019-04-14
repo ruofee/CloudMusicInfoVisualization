@@ -1,6 +1,7 @@
 const {weapi} = require('../util');
 const http = require('../http');
 const DB = require('../database');
+const getIP = require('../util/getIP');
 
 module.exports = router => {
   router.get('/getUserInfo', async (req, res) => {
@@ -15,7 +16,7 @@ module.exports = router => {
         const user = new DB.User({
           username: response.data.profile.nickname,
           id,
-          ip: req.socket.remoteAddress,
+          ip: getIP(req)
         });
         await user.save();
       } catch(err) {

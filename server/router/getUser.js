@@ -1,12 +1,13 @@
 const {weapi} = require('../util');
 const http = require('../http');
 const DB = require('../database');
+const getIP = require('../util/getIP');
 
 module.exports = router => {
   router.get('/getUser', async (req, res) => {
     const {name, limit, page} = req.query;
     const keyword = new DB.Keyword({
-      ip: req.socket.remoteAddress,
+      ip: getIP(req),
       keyword: name
     });
     try {
