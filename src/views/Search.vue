@@ -7,7 +7,9 @@
       show-action>
       <div slot="action" @click="onSearch">搜索</div>
     </Search>
+    <div class="background" v-if="firstSearch"></div>
     <List
+      v-else
       v-model="listConfig.loading"
       :immediate-check="false"
       :finished="listConfig.finished"
@@ -50,7 +52,8 @@
           finishedText: '没有更多了'
         },
         users: [], // 搜索用户列表
-        count: 0 // 用户总数
+        count: 0, // 用户总数
+        firstSearch: true
       };
     },
     methods: {
@@ -66,6 +69,13 @@
         });
       },
       onSearch() {
+        if (!this.searchConfig.keyword) {
+          Toast('关键字不能为空');
+          return false;
+        }
+        if (this.firstSearch) {
+          this.firstSearch = false;
+        }
         this.listConfig.page = 1;
         const toast = Toast.loading({
           mask: true,
@@ -106,6 +116,12 @@
 </script>
 
 <style scoped>
+  .background {
+    height: calc(100vh - 100px);
+    background-image: url('../assets/search.jpeg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
   .card >>> .van-card__title {
     line-height: 28px;
     font-size: 1.2em;

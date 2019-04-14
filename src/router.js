@@ -20,7 +20,7 @@ const router = new Router({
       meta: {
         title: '搜索'
       },
-      component: () => import('./views/Search'),
+      component: () => import('./views/Search')
     },
     {
       path: '/user/:id',
