@@ -33,5 +33,17 @@ exports.UserSchema = mongoose.Schema({
   username: {
     default: '',
     type: String
-  }
+  },
+  gender: {
+    default: 0,
+    type: Number
+  },
+  signature: {
+    default: '',
+    type: String
+  },
+  avatarUrl: {
+    default: '',
+    type: String
+  },
 });

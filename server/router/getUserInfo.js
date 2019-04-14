@@ -12,9 +12,14 @@ module.exports = router => {
         url: `weapi/v1/user/detail/${id}`,
         data: weapi({})
       });
+      const result = response.data;
       try {
+        const {nickname, gender, signature, avatarUrl} = result.profile;
         const user = new DB.User({
-          username: response.data.profile.nickname,
+          username: nickname,
+          gender,
+          signature,
+          avatarUrl,
           id,
           ip: getIP(req)
         });
@@ -22,7 +27,7 @@ module.exports = router => {
       } catch(err) {
         throw new Error(err.message);
       }
-      res.status(200).send(response.data);
+      res.status(200).send(result);
     } catch(err) {
       res.status(500).send(err.message);
     }
