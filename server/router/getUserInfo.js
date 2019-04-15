@@ -3,7 +3,7 @@ const {weapi} = require('../util');
 const http = require('../http');
 const DB = require('../database');
 const getIP = require('../util/getIP');
-const {dateFormat} = require('../config');
+const {dateFormat} = require('../database/config');
 
 module.exports = router => {
   router.get('/getUserInfo', async (req, res) => {
