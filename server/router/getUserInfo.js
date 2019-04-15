@@ -1,7 +1,9 @@
+const day = require('dayjs');
 const {weapi} = require('../util');
 const http = require('../http');
 const DB = require('../database');
 const getIP = require('../util/getIP');
+const {dateFormat} = require('./config');
 
 module.exports = router => {
   router.get('/getUserInfo', async (req, res) => {
@@ -21,7 +23,8 @@ module.exports = router => {
           signature,
           avatarUrl,
           id,
-          ip: getIP(req)
+          ip: getIP(req),
+          date: day().format(dateFormat)
         });
         await user.save();
       } catch(err) {

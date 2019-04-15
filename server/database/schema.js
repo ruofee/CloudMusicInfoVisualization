@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const day = require('dayjs');
-const {dateFormat} = require('./config');
 
 exports.KeywordSchema = mongoose.Schema({
   ip: {
@@ -8,7 +6,7 @@ exports.KeywordSchema = mongoose.Schema({
     type: String
   },
   date: {
-    default: day().format(dateFormat),
+    default: '',
     type: String
   },
   keyword: {
@@ -23,7 +21,7 @@ exports.UserSchema = mongoose.Schema({
     type: String
   },
   date: {
-    default: day().format(dateFormat),
+    default: '',
     type: String
   },
   id: {

@@ -1,14 +1,17 @@
 const {weapi} = require('../util');
 const http = require('../http');
+const day = require('dayjs');
 const DB = require('../database');
 const getIP = require('../util/getIP');
+const {dateFormat} = require('./config');
 
 module.exports = router => {
   router.get('/getUser', async (req, res) => {
     const {name, limit, page} = req.query;
     const keyword = new DB.Keyword({
       ip: getIP(req),
-      keyword: name
+      keyword: name,
+      date: day().format(dateFormat)
     });
     try {
       await keyword.save();
