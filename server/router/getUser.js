@@ -3,7 +3,7 @@ const http = require('../http');
 const day = require('dayjs');
 const DB = require('../database');
 const getIP = require('../util/getIP');
-const {dateFormat} = require('./config');
+const {dateFormat} = require('../config');
 
 module.exports = router => {
   router.get('/getUser', async (req, res) => {
