@@ -8,9 +8,9 @@
 
 接口算法参考了[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-#### Demo
+#### 线上地址
 
-[项目在线地址](http://interesting.ruofee.cn)
+[项目在线地址](http://cloudmusic.ruofee.cn)
 
 #### 写在最后
 
