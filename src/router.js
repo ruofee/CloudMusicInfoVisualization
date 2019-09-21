@@ -8,17 +8,6 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      redirect: {
-        name: 'Search'
-      },
-      meta: {
-        title: '首页'
-      },
-      component: () => import('./views/Home')
-    },
-    {
-      path: '/search',
       name: 'Search',
       meta: {
         title: '搜索'
