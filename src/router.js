@@ -32,6 +32,14 @@ const router = new Router({
         title: '用户主页'
       },
       component: () => import('./views/User')
+    },
+    {
+      path: '/report',
+      name: 'Report',
+      meta: {
+        title: '报告'
+      },
+      component: () => import('./views/Report')
     }
   ]
 });

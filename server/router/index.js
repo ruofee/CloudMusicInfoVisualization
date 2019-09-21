@@ -10,7 +10,8 @@ const getFans = require('./getFans');
 const getArtist = require('./getArtist');
 const getSongDetail = require('./getSongDetail');
 const getCommentHot = require('./getCommentHot');
-
+const getSearchTrend = require('./getSearchTrend');
+const getSearchGender = require('./getSearchGender');
 
 module.exports = app => {
   // 导入路由中间件
@@ -49,7 +50,13 @@ module.exports = app => {
 
   getSongDetail(router);
 
-  //根据id和type获取热评
+  // 根据id和type获取热评
 
   getCommentHot(router);
+
+  // 搜索趋势图
+  getSearchTrend(router);
+
+  // 性别对比图
+  getSearchGender(router);
 };
